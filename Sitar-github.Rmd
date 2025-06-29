@@ -1,0 +1,130 @@
+---
+title: "Sitar model"
+author: "Me"
+date: "2023-11-04"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE,warning = FALSE)
+```
+
+```{r}
+library(sitar)
+
+```
+
+
+```{r}
+Sitar <- read.csv2("sitar_sample.csv")
+
+```
+
+
+```{r}
+View(Sitar)
+
+```
+
+
+```{r}
+(m0 <- sitar(x=age, y=height, id=id, data=Sitar, df=5))
+(m1 <- sitar(x=age, y=height, id=id, data=sitar20_alea, df=5))
+(m2 <- sitar(x=age, y=height, id=id, data=sitar40_alea, df=5))
+(m3 <- sitar(x=age, y=height, id=id, data=sitar60_alea, df=5))
+(m4 <- sitar(x=age, y=height, id=id, data=sitar20_pdv, df=5))
+(m5 <- sitar(x=age, y=height, id=id, data=sitar40_pdv, df=5))
+(m6 <- sitar(x=age, y=height, id=id, data=sitar60_pdv, df=5))
+```
+
+
+```{r}
+ff <- na.omit(Sitar[Sitar$age >= 8 & Sitar$age <= 18, 
+                       c('id', 'age', 'height')])
+```
+
+
+```{r}
+fh <- sitar(x = age, y = height, id = id, data = ff, df = 5) 
+
+```
+
+#Courbes de croissance brutes de tous les patients
+```{r fig.height=10, fig.width=15}
+mplot(x = age, y = height, id = id, data = ff, col = id, las = 1)
+
+```
+
+POur avoir les id en face de chq courbe
+```{r}
+# 1. Créez votre graphique mplot
+mplot(x = age, y = height, id = id, data = ff, col = id, las = 1)
+
+# 2. Ajoutez les ID de chaque patient
+# Pour chaque patient, trouvez le dernier point (âge, hauteur) et y attachez l'ID.
+# Il faut s'assurer que 'ff' est trié par 'age' pour que le dernier point soit le bon.
+ff_sorted <- ff[order(ff$id, ff$age), ]
+
+# Pour éviter d'afficher tous les IDs si vous en avez beaucoup,
+# vous pouvez ne montrer que quelques-uns ou les espacer.
+# Ici, nous allons les ajouter pour tous les IDs uniques.
+
+unique_ids <- unique(ff_sorted$id)
+
+for (patient_id in unique_ids) {
+  # Sélectionnez les données pour le patient actuel
+  patient_data <- subset(ff_sorted, id == patient_id)
+
+  # Trouvez le dernier point de données pour ce patient
+  last_point_age <- tail(patient_data$age, 1)
+  last_point_height <- tail(patient_data$height, 1)
+
+  # Ajoutez le texte (ID du patient) à ce point
+  text(x = last_point_age, y = last_point_height,
+       labels = as.character(patient_id),
+       pos = 4, # pos=4 place le texte à droite du point
+       cex = 0.7) # cex = taille du texte (0.7 est un bon point de départ)
+}
+```
+
+#Courbes ajustée avec SITAR
+```{r}
+plot(fh, opt = 'a', col = id, las = 1)
+
+# plot(fh, opt = 'a', col = id, las = 1, xlim = c(min(ff$age), max(ff$age)), ylim = c(min(ff$height), max(ff$height)))
+
+```
+
+#Courbe de la moyenne de tous les patients
+```{r}
+par(mar = c(4,4,1,1) + 0.1, cex = 0.8)
+
+c<-plot(fh, opt = 'd', las = 1, apv = TRUE)
+
+```
+
+#Courbe de la velocité (intensité)
+```{r}
+d<-plot(fh, opt = 'v', las = 1, apv = TRUE, lty = 2)
+
+```
+
+
+#Courbe pour représenter le max-min et moyenne
+```{r}
+par(mar = c(4,4,1,1) + 0.1, cex = 0.8)
+
+e<-plot(fh, opt = 'u', las = 1, col = 8, lwd = 0.5)
+lines(fh, opt = 'd', lty = 2)
+lines(fh, opt = 'ua', col = 4, subset = id == 310)
+lines(fh, opt = 'ua', col = 2, subset = id == 355)
+legend('bottomright', c('id 310', 'mean', 'id 355'), lty = c(1, 2, 1), col = c(4, 1, 2), cex = 0.8, inset=0.04)
+```
+
+
+#Scatter plot (relation) entre les 3 paramètres
+```{r}
+f<-pairs(ranef(fh), labels = c('size', 'timing', 'intensity'), pch=20)
+```
