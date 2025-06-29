@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographie : Le Modèle SITAR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- 
+    Palette Name: Brilliant Blues (selected for vibrancy)
+    HEX Codes: #005F73 (Dark Teal), #0A9396 (Teal), #94D2BD (Light Teal), #EE9B00 (Orange), #CA6702 (Burnt Orange)
+    -->
+    <!-- 
+    Narrative Plan:
+    1.  Introduction: Define SITAR and its purpose.
+    2.  Core Parameters: Explain Translation, Rotation, Scale visually with styled HTML elements.
+    3.  SITAR Visualization: Conceptual Chart showing individual curves aligning to a mean curve.
+    4.  Applications: Highlight key application areas with styled HTML cards.
+    5.  Advantages: Summarize benefits with styled HTML lists.
+    6.  Conclusion: Reiterate the value of SITAR.
+    -->
+    <!-- 
+    Visualization Choices (NO SVG, NO MERMAID):
+    -   Core Parameters: Styled HTML cards with Unicode arrows/icons. Goal: Inform. Method: Tailwind CSS. Confirmed: NO SVG, NO MERMAID.
+    -   SITAR Curve Alignment: Line Chart (hypothetical data). Goal: Organize/Inform. Method: Chart.js Canvas. Confirmed: NO SVG.
+    -   Applications: Styled HTML cards. Goal: Inform. Method: Tailwind CSS. Confirmed: NO SVG, NO MERMAID.
+    -   Advantages: Styled HTML list with Unicode checkmarks. Goal: Inform. Method: Tailwind CSS. Confirmed: NO SVG, NO MERMAID.
+    -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F0F4F8;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 450px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 450px;
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+
+        <header class="text-center my-8 md:my-16">
+            <h1 class="text-5xl md:text-7xl font-black text-[#005F73] tracking-tight">Le Modèle SITAR</h1>
+            <p class="text-xl md:text-2xl mt-4 text-[#0A9396]">Analyser la croissance longitudinale avec précision</p>
+        </header>
+
+        <section class="mb-16">
+            <div class="text-center max-w-4xl mx-auto mb-12">
+                <h2 class="text-3xl font-bold text-[#005F73] mb-4">Qu'est-ce que SITAR ?</h2>
+                <p class="text-lg text-gray-700">
+                    SITAR (SuperImposition by Translation And Rotation) est une méthode statistique avancée pour analyser les données de croissance longitudinales. Elle permet d'étudier les trajectoires individuelles en tenant compte des variations de timing et d'intensité, offrant une vision nuancée des processus de développement.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <div class="bg-white p-6 rounded-lg shadow-lg text-center transform hover:scale-105 transition-transform duration-300">
+                    <span class="text-5xl text-[#EE9B00] block mb-2">⬆️⬇️</span>
+                    <h3 class="text-xl font-bold mt-4 mb-2 text-[#005F73]">Translation (Déplacement Vertical)</h3>
+                    <p class="text-gray-600">Capture la variation de la taille moyenne individuelle par rapport à la population.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg text-center transform hover:scale-105 transition-transform duration-300">
+                    <span class="text-5xl text-[#EE9B00] block mb-2">🔄</span>
+                    <h3 class="text-xl font-bold mt-4 mb-2 text-[#005F73]">Rotation (Modification du Tempo)</h3>
+                    <p class="text-gray-600">Représente les différences dans le timing de la croissance (ex: âge à la puberté).</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg text-center transform hover:scale-105 transition-transform duration-300">
+                    <span class="text-5xl text-[#EE9B00] block mb-2">📏</span>
+                    <h3 class="text-xl font-bold mt-4 mb-2 text-[#005F73]">Échelle (Amplitude)</h3>
+                    <p class="text-gray-600">Traduit les différences dans le rythme ou l'intensité de la croissance.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-16 bg-white rounded-lg shadow-xl p-8">
+            <h2 class="text-3xl font-bold text-center text-[#005F73] mb-8">Visualisation SITAR : Alignement des Courbes de Croissance</h2>
+            <p class="text-center text-lg text-gray-700 max-w-4xl mx-auto mb-8">
+                Le modèle SITAR permet de transformer des courbes de croissance individuelles très diverses en les alignant sur une "courbe moyenne". Cela révèle les variations sous-jacentes de translation, rotation et échelle qui les distinguent. Ce graphique conceptuel montre comment des trajectoires initialement disparates peuvent être superposées pour faciliter l'analyse comparative.
+            </p>
+            <div class="chart-container">
+                <canvas id="sitarCurveAlignmentChart"></canvas>
+            </div>
+        </section>
+        
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-center text-[#005F73] mb-8">Applications Clés du Modèle SITAR</h2>
+            <p class="text-center text-lg text-gray-700 max-w-4xl mx-auto mb-8">
+                Grâce à sa flexibilité, le modèle SITAR trouve des applications dans une variété de domaines nécessitant une analyse fine des trajectoires longitudinales.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                    <h3 class="text-xl font-bold text-[#0A9396] mb-3">Études de Croissance</h3>
+                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                        <li>Analyse de la taille, du poids, des mesures anthropométriques.</li>
+                        <li>Compréhension des différences de croissance et de puberté chez les enfants.</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                    <h3 class="text-xl font-bold text-[#0A9396] mb-3">Études Longitudinales en Santé</h3>
+                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                        <li>Examen des trajectoires de développement cognitif, moteur.</li>
+                        <li>Analyse du développement comportemental sur le long terme.</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                    <h3 class="text-xl font-bold text-[#0A9396] mb-3">Évaluation des Interventions</h3>
+                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                        <li>Comparer l'effet d'une intervention (ex: nutritionnelle).</li>
+                        <li>Analyser l'impact sur les trajectoires de croissance et de développement.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-16 bg-white rounded-lg shadow-xl p-8">
+            <h2 class="text-3xl font-bold text-center text-[#005F73] mb-8">Avantages du Modèle SITAR</h2>
+            <p class="text-center text-lg text-gray-700 max-w-4xl mx-auto mb-8">
+                L'adoption du modèle SITAR offre des bénéfices significatifs pour l'analyse des données longitudinales, surpassant les méthodes traditionnelles.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="flex items-start bg-[#94D2BD] bg-opacity-30 p-4 rounded-lg shadow-sm">
+                    <span class="text-2xl text-[#005F73] mr-4">✔</span>
+                    <div>
+                        <h3 class="font-bold text-xl text-[#005F73]">Résumé des Trajectoires Complexes</h3>
+                        <p class="text-gray-700">Réduit des séries temporelles entières à seulement trois paramètres clés, simplifiant l'interprétation.</p>
+                    </div>
+                </div>
+                <div class="flex items-start bg-[#94D2BD] bg-opacity-30 p-4 rounded-lg shadow-sm">
+                    <span class="text-2xl text-[#005F73] mr-4">✔</span>
+                    <div>
+                        <h3 class="font-bold text-xl text-[#005F73]">Flexibilité et Applicabilité</h3>
+                        <p class="text-gray-700">Applicable à divers types de données longitudinales présentant des trajectoires non linéaires.</p>
+                    </div>
+                </div>
+                <div class="flex items-start bg-[#94D2BD] bg-opacity-30 p-4 rounded-lg shadow-sm">
+                    <span class="text-2xl text-[#005F73] mr-4">✔</span>
+                    <div>
+                        <h3 class="font-bold text-xl text-[#005F73]">Interprétabilité Directe</h3>
+                        <p class="text-gray-700">Les paramètres ont une signification biologique ou clinique claire et immédiate.</p>
+                    </div>
+                </div>
+                <div class="flex items-start bg-[#94D2BD] bg-opacity-30 p-4 rounded-lg shadow-sm">
+                    <span class="text-2xl text-[#005F73] mr-4">✔</span>
+                    <div>
+                        <h3 class="font-bold text-xl text-[#005F73]">Précision Accrue</h3>
+                        <p class="text-gray-700">Identifie les variations subtiles dans le timing et l'intensité des changements.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center py-8 border-t border-gray-300">
+            <p class="text-lg font-bold text-[#005F73]">SITAR : L'outil essentiel pour une compréhension approfondie de la dynamique de croissance.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        function wrapLabel(str, maxWidth) {
+            if (str.length <= maxWidth) {
+                return str;
+            }
+            const words = str.split(' ');
+            let lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if ((currentLine + ' ' + words[i]).length > maxWidth) {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                } else {
+                    currentLine += ' ' + words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+        
+        const sharedTooltipOptions = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                              return label.join(' ');
+                            } else {
+                              return label;
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        const sitarCtx = document.getElementById('sitarCurveAlignmentChart').getContext('2d');
+        const sitarCurveAlignmentChart = new Chart(sitarCtx, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 20}, (_, i) => i + 1), // Ages from 1 to 20
+                datasets: [
+                    {
+                        label: 'Courbe Individu A (Originale)',
+                        data: [10, 15, 25, 40, 55, 68, 75, 78, 79, 79.5, 79.8, 79.9, 80, 80, 80, 80, 80, 80, 80, 80],
+                        borderColor: '#EE9B00',
+                        backgroundColor: 'rgba(238, 155, 0, 0.1)',
+                        fill: false,
+                        tension: 0.4,
+                        borderDash: [5, 5]
+                    },
+                    {
+                        label: 'Courbe Individu B (Originale)',
+                        data: [12, 18, 30, 48, 62, 72, 78, 80, 81, 81.5, 81.8, 81.9, 82, 82, 82, 82, 82, 82, 82, 82],
+                        borderColor: '#CA6702',
+                        backgroundColor: 'rgba(202, 103, 2, 0.1)',
+                        fill: false,
+                        tension: 0.4,
+                        borderDash: [5, 5]
+                    },
+                    {
+                        label: 'Courbe Moyenne',
+                        data: [11, 16.5, 27.5, 44, 58.5, 70, 76.5, 79, 80, 80.5, 80.8, 80.9, 81, 81, 81, 81, 81, 81, 81, 81],
+                        borderColor: '#005F73',
+                        backgroundColor: 'rgba(0, 95, 115, 0.2)',
+                        fill: false,
+                        tension: 0.4,
+                        borderWidth: 3
+                    },
+                    {
+                        label: 'Courbe Individu A (Alignée SITAR)',
+                        data: [11.5, 17, 28, 44.5, 59, 70.5, 77, 79, 80, 80.5, 80.8, 80.9, 81, 81, 81, 81, 81, 81, 81, 81],
+                        borderColor: '#0A9396',
+                        backgroundColor: 'rgba(10, 147, 150, 0.2)',
+                        fill: false,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Courbe Individu B (Alignée SITAR)',
+                        data: [10.5, 16, 27, 43.5, 58, 69.5, 76, 78.5, 79.5, 80, 80.3, 80.4, 80.5, 80.5, 80.5, 80.5, 80.5, 80.5, 80.5, 80.5],
+                        borderColor: '#94D2BD',
+                        backgroundColor: 'rgba(148, 210, 189, 0.2)',
+                        fill: false,
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                ...sharedTooltipOptions,
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Âge'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Mesure de Croissance'
+                        },
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    ...sharedTooltipOptions.plugins,
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
